@@ -1,11 +1,13 @@
 ﻿
 <?php
 //连接数据库
+session_start();
 $con = mysql_connect('localhost', 'root', '') or 
     die ("connect failed" . mysql_error());
 mysql_select_db("nba") or die(mysql_error());
 mysql_query("set names 'utf8'");
-$result = mysql_query("select * from account_info where account='yll' ",$con);?>
+$account = $_SESSION["name"];
+$result = mysql_query("select * from account_info where account='$account' ",$con);?>
      <table border=1>
 	<tr>
 		<th>大前锋</th>
@@ -26,7 +28,7 @@ $result = mysql_query("select * from account_info where account='yll' ",$con);?>
     </table>
 	<p>
 	恭喜您!<br>
-	您阵容的名次为： <br>
+	您阵容的名次为：<?php echo $arr['rank'];?> <br>
 	<p>
 	<?php
 mysql_close($con);

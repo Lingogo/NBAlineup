@@ -27,7 +27,7 @@ $result = mysql_query("select * from player_info where pteam='$pteam' ",$con);?>
 <?php
 while($arr=mysql_fetch_array($result)){
 ?>
-<form action="submit1.php" method="get">
+<form action="submit.php" method="get">
 
 	<tr>
 		<td><?php echo $arr['pname'];?>&nbsp;</td>
