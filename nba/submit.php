@@ -91,9 +91,9 @@ while($i=mysql_fetch_array($result1))
 		if($i['score'] < $j['score'])
 		{
 			$rank=$rank+1;
-			mysql_query("update account_info set rank = '$rank' where account='$account' ",$con);
 		}
 	}
+	mysql_query("update account_info set rank = '$rank' where account='$account' ",$con);
 }
 include "player_choose.html";
 mysql_close($con);

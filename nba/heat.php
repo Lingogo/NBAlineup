@@ -13,7 +13,6 @@ $result = mysql_query("select * from player_info where pteam='$pteam' ",$con);?>
 <table border=1>
 <tr>
 		<th>姓名</th>
-		<th>球衣号码</th>
 		<th>篮板</th>
 		<th>助攻</th>
 		<th>抢断</th>
@@ -29,7 +28,6 @@ while($arr=mysql_fetch_array($result)){
 
 	<tr>
 		<td><?php echo $arr['pname'];?>&nbsp;</td>
-		<td><?php echo $arr['pnumber'];?>&nbsp;</td>
 		<td><?php echo $arr['pboard'];?>&nbsp;</td>
 		<td><?php echo $arr['passist'];?>&nbsp;</td>
 		<td><?php echo $arr['psteal'];?>&nbsp;</td>
