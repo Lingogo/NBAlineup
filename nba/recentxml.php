@@ -47,13 +47,7 @@
 			$assist = $a["assist"];
 			$block = $a["block"];
 			$goal = $a["goal"];
-			mysql_query("insert into recent_info values('$name','$board','$assist','$block','$mistake','$goal')", $con);
-		}
-		else
-		{
-			$a["name"] = $values[($index["NAME"]['0'])]["value"];
-			$name = $a["name"];
-			mysql_query("insert into recent_info values('$name','0','0','0','0','0')", $con);
+			mysql_query("update recent_info set pboard='$board',passist='$assist',pblock='$block',pmistake='$mistake',pgoal='$goal' where pname='$name'", $con);
 		}
         xml_parser_free($xmlparser);
         }

@@ -11,90 +11,98 @@ if($_GET)
 	$choo=$_GET['choose'];
 	$pname=$_GET['pname'];
 }
+
 $account = $_SESSION["name"];
-if($choo == "1")
-	mysql_query("update account_info set PF='$pname' where account='$account' ",$con);
-if($choo == "2")
-	mysql_query("update account_info set SF='$pname' where account='$account' ",$con);
-if($choo == "3")
-	mysql_query("update account_info set Center='$pname' where account='$account' ",$con);
-if($choo == "4")
-	mysql_query("update account_info set SG='$pname' where account='$account' ",$con);
-if($choo == "5")
-	mysql_query("update account_info set PG='$pname' where account='$account' ",$con);
-
-
+$_SESSION["choo"]=$choo;
+$_SESSION["pname"]=$pname;
 $result = mysql_query("select * from account_info where account='$account' ",$con);
 $arr=mysql_fetch_array($result);
-
-	$name=$arr['PF'];
-	$result1 = mysql_query("select * from recent_info where pname='$name' ",$con);
-	if($arr1=mysql_fetch_array($result1))
-	{
-		$goal=$arr1['pgoal'];
-		$board=$arr1['pboard'];
-		$s1=($goal/4+$board)/2;
-	}
-	else
-		$s1=0;
-	
-	$name=$arr['SF'];
-	$result2 = mysql_query("select * from recent_info where pname='$name' ",$con);
-	if($arr2=mysql_fetch_array($result2))
-	{
-		$goal=$arr2['pgoal'];
-		$s2=$goal/4;
-	}
-	else
-		$s2=0;
-	$name=$arr['Center'];
-	$result3 = mysql_query("select * from recent_info where pname='$name' ",$con);
-	if($arr3=mysql_fetch_array($result3))
-	{
-		$block=$arr3['pblock'];
-		$board=$arr3['pboard'];
-		$s3=$block+$board;
-	}
-	else
-		$s3=0;
-	$name=$arr['SG'];
-	$result4 = mysql_query("select * from recent_info where pname='$name' ",$con);
-	if($arr4=mysql_fetch_array($result4))
-	{
-		$goal=$arr4['pgoal'];
-		$s4=$goal/4;
-	}
-	else
-		$s4=0;
-	$name=$arr['PG'];
-	$result5 = mysql_query("select * from recent_info where pname='$name' ",$con);
-	if($arr5=mysql_fetch_array($result5))
-	{
-		$assist=$arr5['passist'];
-		$mistake=$arr5['pmistake'];
-		$s5=$assist-$mistake;
-	}
-	else
-		$s5=0;
-$s=$s1+$s2+$s3+$s4+$s5;
-mysql_query("update account_info set score='$s' where account='$account' ",$con);
-
-$result1 = mysql_query("select * from account_info ",$con);
-
-while($i=mysql_fetch_array($result1))
+if($choo == "1")
 {
-	$rank=1;
-	$account=$i['account'];
-	$result2 = mysql_query("select * from account_info ",$con);
-	while($j=mysql_fetch_array($result2))
+	if($arr['PF'])
 	{
-		if($i['score'] < $j['score'])
-		{
-			$rank=$rank+1;
-		}
+		if($arr['SF']==$pname || $arr['Center']==$pname || $arr['SG']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，并且大前锋位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>var p=window.confirm('大前锋位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
 	}
-	mysql_query("update account_info set rank = '$rank' where account='$account' ",$con);
+	else
+	{
+		if($arr['SF']==$pname || $arr['Center']==$pname || $arr['SG']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>window.location.href='revise.php?id=ok';</script>";
+	}
 }
-include "player_choose.html";
+else if($choo == "2")
+{
+	if($arr['SF'])
+	{
+		if($arr['PF']==$pname || $arr['Center']==$pname || $arr['SG']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，并且小前锋位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>var p=window.confirm('小前锋位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+	}
+	else
+	{
+		if($arr['PF']==$pname || $arr['Center']==$pname || $arr['SG']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>window.location.href='revise.php?id=ok';</script>";
+	}
+}
+else if($choo == "3")
+{
+	if($arr['Center'])
+	{
+		if($arr['SF']==$pname || $arr['PF']==$pname || $arr['SG']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，并且中锋位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>var p=window.confirm('中锋位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+	}
+	else
+	{
+		if($arr['SF']==$pname || $arr['PF']==$pname || $arr['SG']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>window.location.href='revise.php?id=ok';</script>";
+	}
+}
+else if($choo == "4")
+{
+	if($arr['SG'])
+	{
+		if($arr['SF']==$pname || $arr['Center']==$pname || $arr['PF']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，并且得分后卫位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>var p=window.confirm('得分后卫位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+	}
+	else
+	{
+		if($arr['SF']==$pname || $arr['Center']==$pname || $arr['PF']==$pname || $arr['PG']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>window.location.href='revise.php?id=ok';</script>";
+	}
+}
+else if($choo == "5")
+{
+	if($arr['PG'])
+	{
+		if($arr['SF']==$pname || $arr['Center']==$pname || $arr['SG']==$pname || $arr['PF']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，并且控球后卫位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>var p=window.confirm('控球后卫位置已经有人，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+	}
+	else
+	{
+		if($arr['SF']==$pname || $arr['Center']==$pname || $arr['SG']==$pname || $arr['PF']==$pname)
+			echo "<script>var p=window.confirm('该球员已在其他位置出现，您确定要修改吗？');if(p){window.location.href='revise.php?id=ok';}else{window.location.href='revise.php?id=no';};</script>";
+		else
+			echo "<script>window.location.href='revise.php?id=ok';</script>";
+	}
+}
+
+
 mysql_close($con);
 ?>
