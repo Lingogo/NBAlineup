@@ -1,13 +1,11 @@
 ﻿<?php
-        set_time_limit(10000);  //允许处理时间
-        //连接数据库
-        $con = mysql_connect('localhost', 'root', '') or 
+        $con = mysql_connect(SAE_MYSQL_HOST_M .':'. SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS) or 
             die ("connect failed" . mysql_error());
-        mysql_select_db("nba") or die(mysql_error());
-        mysql_query("set names 'utf8'");
+        mysql_select_db("app_nbaline") or die(mysql_error());
+        mysql_query("set names 'utf-8'");
 
         //处理每个XML文件,写入数据库
-        foreach(glob("C:\\Users\\yll\\DataScraperWorks\\NBAplayer\\*.xml") 
+        foreach(glob("C:\\Users\\yll\\DataScraperWorks\\sinaNBA3to1\\*.xml") 
                 as $xmlfile)
         {
             $fp = fopen($xmlfile, "r");  //打开文件
@@ -31,8 +29,8 @@
 			  "name" => "",
 			  "team" => ""
             );
-		//print_r($index)
-		//echo $values[($index["MISTAKE"][1])]["value"];
+		//print_r($index);
+		//echo $values[($index["TEAM"][0])]["value"];
 		for($i = 0; $i < count($index["NAME"]); $i++) 
 		{
                 if(isset($values[($index["NAME"][$i])]["value"])) 
@@ -117,11 +115,13 @@
 					$name = $a["name"];
 					$team = $a["team"];
 					
+				
                     //加入数据库
-                    mysql_query("insert into player_info values('$name','$team','$assist','$goal','$board','$steal','$block','$mistake','$foul')", $con);
+                    mysql_query("update player_info set passist='$assist',pteam='$team',pgoal='$goal',pboard='$board',psteal='$steal',pblock='$block',pmistake='$mistake',pfoul='$foul' where pname='$name'", $con);
                 }
 				
-        }       //mysql_query("update player_info set passist='$assist',pteam='$team',pgoal='$goal',pboard='$board',psteal='$steal',pblock='$block',pmistake='$mistake',pfoul='$foul' where pname='$name'", $con);
+        }     
+		//mysql_query("insert into player_info values('$name','$team','$assist','$goal','$board','$steal','$block','$mistake','$foul')", $con);		
         xml_parser_free($xmlparser);
         }
 ?>

@@ -1,10 +1,13 @@
-﻿<?php
-//连接数据库
+<?php
 session_start();
-$con = mysql_connect('localhost', 'root', '') or 
+$con = mysql_connect(SAE_MYSQL_HOST_M .':'. SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS) or 
     die ("connect failed" . mysql_error());
-mysql_select_db("nba") or die(mysql_error());
-mysql_query("set names 'utf8'");
+mysql_select_db("app_nbaline") or die(mysql_error());
+mysql_query("set names 'utf-8'");?>
+<HEAD>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+	</HEAD>
+<?php
 
 if($_GET)
 {
@@ -24,7 +27,7 @@ while($arr=mysql_fetch_array($result))
 if($flag)
 {
 	$_SESSION["name"]=$name;
-	include "NBAline.html";
+	include "index.html";
 	//echo "<script>alert('登陆成功！'); window.location.href = "NBAline.html";</script> "; <?php
 }
 else

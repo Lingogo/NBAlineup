@@ -1,11 +1,14 @@
-﻿<?php
-//连接数据库
+<?php
 session_start();
-$con = mysql_connect('localhost', 'root', '') or 
+$con = mysql_connect(SAE_MYSQL_HOST_M .':'. SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS) or 
     die ("connect failed" . mysql_error());
-mysql_select_db("nba") or die(mysql_error());
-mysql_query("set names 'utf8'");
+mysql_select_db("app_nbaline") or die(mysql_error());
+mysql_query("set names 'utf-8'");?>
+<HEAD>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+	</HEAD>
 
+<?php
 $account1 = $_SESSION["name"];
 if($_GET)
 {
@@ -51,9 +54,17 @@ $pg2=$arr2['PG'];
 $pgresult2 = mysql_query("select * from recent_info where pname='$pg2'",$con);
 $pginfo2=mysql_fetch_array($pgresult2);
 ?>
-
-<table border=1>
-<tr>
+<form action="index.html" method="get">
+		<input type="submit" name="submit" value="返回首页" />
+	</form> 
+<form action="linepk.php" method="get">
+		<input type="submit" name="submit" value="继续对抗" />
+	</form>
+<BODY  background = image/pk1.jpg>
+<center>
+  <strong>  <font size=4>以下数据为球员最近一场比赛数据</font><strong>
+<table border="1px" cellspacing="0px" style="border-collapse:collapse"  bgcolor=#FFEFB6 bordercolor=#FF8000>
+<tr bgcolor=#FFD200 align="center">
 		<th>用户名</th>
 		<th>大前锋</th>
 		<th>得分</th>
@@ -92,8 +103,8 @@ $pginfo2=mysql_fetch_array($pgresult2);
 </tr>
 </table>
 <p>
-<table border=1>
-<tr>
+<table border="1px" cellspacing="0px" style="border-collapse:collapse"  bgcolor=#FFEFB6 bordercolor=#FF8000>
+<tr bgcolor=#FFD200 align="center">
 		<th>用户名</th>
 		<th>小前锋</th>
 		<th>得分</th>
@@ -128,8 +139,8 @@ $pginfo2=mysql_fetch_array($pgresult2);
 </tr>
 </table>
 <p>
-<table border=1>
-<tr>
+<table border="1px" cellspacing="0px" style="border-collapse:collapse"  bgcolor=#FFEFB6 bordercolor=#FF8000>
+<tr bgcolor=#FFD200 align="center">
 		<th>用户名</th>
 		<th>中锋</th>
 		<th>得分</th>
@@ -168,8 +179,8 @@ $pginfo2=mysql_fetch_array($pgresult2);
 </tr>
 </table>
 <p>
-<table border=1>
-<tr>
+<table border="1px" cellspacing="0px" style="border-collapse:collapse"  bgcolor=#FFEFB6 bordercolor=#FF8000>
+<tr bgcolor=#FFD200 align="center">
 		<th>用户名</th>
 		<th>得分后卫</th>
 		<th>得分</th>
@@ -204,8 +215,8 @@ $pginfo2=mysql_fetch_array($pgresult2);
 </tr>
 </table>
 <p>
-<table border=1>
-<tr>
+<table border="1px" cellspacing="0px" style="border-collapse:collapse"  bgcolor=#FFEFB6 bordercolor=#FF8000>
+<tr bgcolor=#FFD200 align="center">
 		<th>用户名</th>
 		<th>控球后卫</th>
 		<th>助攻</th>
@@ -244,9 +255,10 @@ $pginfo2=mysql_fetch_array($pgresult2);
 </tr>
 </table>
 <p>
-<?php echo "综合比较，";
+<strong><font size = 5 ><?php echo "综合比较，";
 	if($arr1['rank']>$arr2['rank'])
 		echo $arr2['account']."的阵容胜！";
 	else
 		echo $arr1['account']."的阵容胜！";
-		?>
+    ?></font>
+    <center>

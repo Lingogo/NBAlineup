@@ -1,13 +1,11 @@
 ﻿<?php
-        set_time_limit(10000);  //允许处理时间
-        //连接数据库
-        $con = mysql_connect('localhost', 'root', '') or 
+        $con = mysql_connect(SAE_MYSQL_HOST_M .':'. SAE_MYSQL_PORT, SAE_MYSQL_USER, SAE_MYSQL_PASS) or 
             die ("connect failed" . mysql_error());
-        mysql_select_db("nba") or die(mysql_error());
-        mysql_query("set names 'utf8'");
+        mysql_select_db("app_nbaline") or die(mysql_error());
+        mysql_query("set names 'utf-8'");
 
         //处理每个XML文件,写入数据库
-        foreach(glob("C:\\Users\\yll\\DataScraperWorks\\recent3to1\\*.xml") 
+        foreach(glob("yllrecent3to1/*.xml") 
                 as $xmlfile)
         {
             $fp = fopen($xmlfile, "r");  //打开文件
@@ -31,8 +29,8 @@
 			  "name" => "",
 			  "team" => ""
             );
-		//print_r($values);
-		if(isset($values[($index["MISTAKE"]['0'])]["value"]))
+            //print_r($values);
+            	if(isset($values[($index["MISTAKE"]['0'])]["value"]))
 		{
 			$a["name"] = $values[($index["NAME"]['0'])]["value"];
 			$a["board"] = $values[($index["BOARD"]['0'])]["value"];
@@ -40,15 +38,21 @@
 			$a["block"] = $values[($index["BLOCK"]['0'])]["value"];
 			$a["goal"] = $values[($index["GOAL"]['0'])]["value"];
 			$a["mistake"] = $values[($index["MISTAKE"]['0'])]["value"];
-			
+              
+            
+                    
 			$name = $a["name"];
 			$mistake = $a["mistake"];
 			$board = $a["board"];
 			$assist = $a["assist"];
 			$block = $a["block"];
 			$goal = $a["goal"];
-			mysql_query("update recent_info set pboard='$board',passist='$assist',pblock='$block',pmistake='$mistake',pgoal='$goal' where pname='$name'", $con);
-		}
+            if($name =="勒布朗-詹姆斯")
+            {
+                echo $goal;
+            }
+                    //mysql_query("update recent_info set pboard='$board',passist='$assist',pblock='$block',pmistake='$mistake',pgoal='$goal' where pname='$name'", $con);
+        }
         xml_parser_free($xmlparser);
         }
 ?>
